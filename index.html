@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Case Study — Korean Marine Collagen PDP | Wellbeing Nutrition</title>
+<meta name="description" content="A conversion rate optimization case study for Wellbeing Nutrition's Korean Marine Collagen product page — covering customer research, friction identification, experiment design, and measurement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN SYSTEM
+   ============================================================ */
+:root {
+  --bg:          #0c1117;
+  --bg-card:     #131a23;
+  --bg-card2:    #1a2535;
+  --border:      rgba(255,255,255,0.07);
+  --border-em:   rgba(16,185,129,0.25);
+
+  --teal:        #10b981;
+  --teal-dim:    rgba(16,185,129,0.12);
+  --teal-glow:   rgba(16,185,129,0.18);
+  --cyan:        #22d3ee;
+  --cyan-dim:    rgba(34,211,238,0.10);
+  --amber:       #f59e0b;
+  --amber-dim:   rgba(245,158,11,0.12);
+  --red:         #f43f5e;
+  --red-dim:     rgba(244,63,94,0.12);
+  --violet:      #a78bfa;
+  --violet-dim:  rgba(167,139,250,0.12);
+
+  --txt:         #f1f5f9;
+  --txt-2:       #94a3b8;
+  --txt-3:       #64748b;
+
+  --r-sm:        8px;
+  --r-md:        14px;
+  --r-lg:        20px;
+  --r-xl:        28px;
+
+  --shadow:      0 20px 40px -12px rgba(0,0,0,0.5);
+  --shadow-sm:   0 4px 16px -4px rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  line-height: 1.65;
+  padding-top: 60px;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 10% 5%, rgba(16,185,129,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 90% 75%, rgba(34,211,238,0.05) 0%, transparent 55%);
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg-card2); border-radius: 3px; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 60px;
+  background: rgba(12,17,23,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+.nav-brand {
+  font-family: 'DM Serif Display', serif;
+  font-size: 17px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-brand .pulse {
+  width: 8px; height: 8px;
+  background: var(--teal);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--teal);
+  animation: pulse-anim 2.5s ease-in-out infinite;
+}
+@keyframes pulse-anim {
+  0%,100% { opacity:1; box-shadow: 0 0 8px var(--teal); }
+  50%      { opacity:0.7; box-shadow: 0 0 20px var(--teal); }
+}
+.nav-sub { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--txt-2); font-weight: 500; }
+.nav-links {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--txt-2);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--teal); background: var(--teal-dim); }
+@media(max-width:640px){ .nav-links { display: none; } .nav { padding: 0 16px; } }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 100px;
+}
+
+/* ============================================================
+   SECTION SPACING
+   ============================================================ */
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 40px 40px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.section:hover { border-color: rgba(255,255,255,0.12); }
+.section--accent { border-color: var(--border-em); }
+@media(max-width:640px){ .section { padding: 24px 20px; } }
+
+/* top-border accents */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.section:hover::before { opacity: 1; }
+.accent-teal::before  { background: linear-gradient(90deg,transparent,var(--teal),transparent); }
+.accent-cyan::before  { background: linear-gradient(90deg,transparent,var(--cyan),transparent); }
+.accent-amber::before { background: linear-gradient(90deg,transparent,var(--amber),transparent); }
+.accent-violet::before{ background: linear-gradient(90deg,transparent,var(--violet),transparent); }
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+.eyebrow .dot { width: 5px; height: 5px; background: var(--teal); border-radius: 50%; }
+
+h1.page-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(30px, 4.5vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 16px;
+}
+h2.sec-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+h2.sec-title .ic {
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm);
+  background: var(--teal-dim);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+h3.sub-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+p.body-text {
+  font-size: 14.5px;
+  color: var(--txt-2);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+p.body-text:last-child { margin-bottom: 0; }
+p.body-text strong { color: var(--txt); font-weight: 600; }
+
+/* ============================================================
+   COVER HERO
+   ============================================================ */
+.hero {
+  padding: 52px 48px;
+  background: linear-gradient(135deg, var(--bg-card) 0%, #151f2c 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 40px;
+  align-items: start;
+}
+@media(max-width:760px){ .hero-inner { grid-template-columns: 1fr; } .hero { padding: 28px 20px; } }
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 12px;
+  color: var(--txt-2);
+}
+.chip strong { color: var(--txt); font-weight: 600; }
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--txt-2);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 28px;
+}
+
+/* Recs card (hero right) */
+.hero-recs {
+  background: rgba(16,185,129,0.05);
+  border: 1px solid var(--border-em);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  backdrop-filter: blur(8px);
+}
+.hero-recs-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.rec-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.rec-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.rec-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.rec-text { font-size: 13.5px; color: var(--txt-2); line-height: 1.5; }
+.rec-text strong { color: var(--txt); font-weight: 600; }
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.badge-teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(16,185,129,0.25); }
+.badge-red    { background: var(--red-dim);    color: var(--red);    border: 1px solid rgba(244,63,94,0.25); }
+.badge-amber  { background: var(--amber-dim);  color: var(--amber);  border: 1px solid rgba(245,158,11,0.25); }
+.badge-cyan   { background: var(--cyan-dim);   color: var(--cyan);   border: 1px solid rgba(34,211,238,0.25); }
+.badge-violet { background: var(--violet-dim); color: var(--violet); border: 1px solid rgba(167,139,250,0.25); }
+
+/* ============================================================
+   CARDS / GRIDS
+   ============================================================ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+@media(max-width:640px){ .grid-2 { grid-template-columns: 1fr; } }
+
+.card {
+  background: rgba(10,16,26,0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 22px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-1px); }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+.card-body { font-size: 13.5px; color: var(--txt-2); line-height: 1.65; }
+
+/* Accent left border */
+.card-good  { border-left: 3px solid var(--teal); }
+.card-bad   { border-left: 3px solid var(--red); }
+.card-warn  { border-left: 3px solid var(--amber); }
+.card-info  { border-left: 3px solid var(--cyan); }
+
+/* ============================================================
+   BUYER SEGMENTS TABLE
+   ============================================================ */
+.segment-table-wrap { overflow-x: auto; margin-top: 20px; }
+table.seg-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  font-size: 13.5px;
+}
+table.seg-table th {
+  background: rgba(255,255,255,0.03);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 13px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+table.seg-table td {
+  padding: 13px 18px;
+  color: var(--txt-2);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+  line-height: 1.55;
+}
+table.seg-table td strong { color: var(--txt); font-weight: 600; }
+table.seg-table tr:last-child td { border-bottom: none; }
+table.seg-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+/* ============================================================
+   FUNNEL VISUALIZATION
+   ============================================================ */
+.funnel-container { margin: 28px 0; }
+.funnel-disclaimer {
+  font-size: 11px;
+  color: var(--txt-3);
+  font-style: italic;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.funnel-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.funnel-label {
+  font-size: 12.5px;
+  color: var(--txt-2);
+  min-width: 160px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.funnel-track {
+  flex: 1;
+  height: 30px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.funnel-fill {
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  background: linear-gradient(90deg, #059669, #10b981);
+  transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+}
+.funnel-pct { font-size: 13px; font-weight: 700; color: var(--teal); min-width: 50px; }
+@media(max-width:640px){ .funnel-label { min-width: 100px; font-size: 11px; } }
+
+/* Drop-off arrows */
+.funnel-dropoff {
+  font-size: 11px;
+  color: var(--red);
+  margin: -4px 0 8px 174px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+@media(max-width:640px){ .funnel-dropoff { margin-left: 114px; } }
+
+/* ============================================================
+   JOURNEY DIAGRAM (SVG inline)
+   ============================================================ */
+.journey-wrap {
+  background: rgba(10,16,26,0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 28px 20px;
+  margin: 24px 0;
+  overflow-x: auto;
+}
+
+/* ============================================================
+   OPPORTUNITY MATRIX
+   ============================================================ */
+.matrix-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.5;
+  max-width: 520px;
+  margin: 24px auto;
+}
+.matrix-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   EXPERIMENT TABLE
+   ============================================================ */
+.exp-box {
+  background: rgba(10,16,26,0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.exp-box:hover { border-color: rgba(255,255,255,0.14); }
+.exp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.exp-id { font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.08em; }
+.exp-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.exp-field label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--txt-3);
+  display: block;
+  margin-bottom: 5px;
+}
+.exp-field p { font-size: 13px; color: var(--txt-2); line-height: 1.5; margin-bottom: 0; }
+.exp-field p strong { color: var(--txt); font-weight: 600; }
+
+/* ============================================================
+   ROADMAP TABLE
+   ============================================================ */
+.roadmap-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  font-size: 13.5px;
+}
+.roadmap-table th {
+  background: rgba(255,255,255,0.03);
+  color: #fff;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 13px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.roadmap-table td {
+  padding: 14px 16px;
+  color: var(--txt-2);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.roadmap-table td strong { color: var(--txt); font-weight: 600; }
+.roadmap-table tr:last-child td { border-bottom: none; }
+.roadmap-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+.phase-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.ph-1 { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(16,185,129,0.25); }
+.ph-2 { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(34,211,238,0.25); }
+.ph-3 { background: var(--violet-dim); color: var(--violet); border: 1px solid rgba(167,139,250,0.25); }
+
+/* ============================================================
+   KPI GRID
+   ============================================================ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+.kpi-card {
+  background: rgba(16,185,129,0.04);
+  border: 1px solid var(--border-em);
+  border-radius: var(--r-md);
+  padding: 20px;
+  text-align: center;
+}
+.kpi-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--teal);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.kpi-label { font-size: 12px; color: var(--txt-2); font-weight: 500; }
+.kpi-note { font-size: 10.5px; color: var(--txt-3); margin-top: 4px; font-style: italic; }
+
+/* ============================================================
+   LIMITATION CARDS
+   ============================================================ */
+.limit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+.limit-card {
+  background: rgba(10,16,26,0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 18px;
+}
+.limit-card-icon { font-size: 20px; margin-bottom: 8px; }
+.limit-card-title { font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.limit-card-body { font-size: 13px; color: var(--txt-2); line-height: 1.6; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--txt-3);
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--teal); text-decoration: none; }
+
+/* ============================================================
+   MISC UTILITIES
+   ============================================================ */
+.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+ul.bullet-list { margin: 12px 0 16px 20px; }
+ul.bullet-list li { font-size: 13.5px; color: var(--txt-2); margin-bottom: 9px; line-height: 1.6; }
+ul.bullet-list li strong { color: var(--txt); font-weight: 600; }
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--txt-3);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  margin-top: 14px;
+  line-height: 1.55;
+}
+.notice .ni { flex-shrink: 0; margin-top: 1px; color: var(--txt-3); font-size: 13px; }
+
+/* Section numbering label */
+.section-num {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--txt-3);
+  margin-bottom: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="pulse"></div>
+    Wellbeing Nutrition <span class="nav-sub">&nbsp;/ CRO Case Study</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#context">Context</a></li>
+    <li><a href="#audit">Audit</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#redesign">Redesign</a></li>
+    <li><a href="#experiments">Experiments</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#metrics">Metrics</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 0: COVER / EXECUTIVE SUMMARY
+       ══════════════════════════════════════════════════════════ -->
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <!-- Left: Title + context -->
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Product Growth Assignment</div>
+        <h1 class="page-title">Korean Marine Collagen PDP:<br>A CRO Breakdown</h1>
+        <p class="hero-desc">
+          This document examines the Wellbeing Nutrition Korean Marine Collagen product page through
+          a conversion lens — identifying where the existing page loses buyer confidence, proposing
+          targeted experiments, and explaining the rationale behind the redesigned shopping experience.
+        </p>
+
+        <div class="hero-meta">
+          <div class="chip">Brand: <strong>Wellbeing Nutrition</strong></div>
+          <div class="chip">Product: <strong>Korean Marine Collagen (200g)</strong></div>
+          <div class="chip">Price: <strong>~₹1,529</strong></div>
+          <div class="chip">Focus: <strong>PDP Conversion Optimization</strong></div>
+        </div>
+
+        <div class="notice">
+          <span class="ni">ℹ️</span>
+          <span>This analysis is based on a qualitative review of the live product page without access to real analytics, heatmaps, session recordings, or customer interviews. Funnel estimates and benchmark ranges are illustrative. All recommendations are hypotheses to be validated through testing.</span>
+        </div>
+      </div>
+
+      <!-- Right: Top 3 recommendations -->
+      <div class="hero-recs">
+        <div class="hero-recs-title">Three Highest-Impact Changes</div>
+        <div class="rec-item">
+          <div class="rec-num">1</div>
+          <div class="rec-text"><strong>Rewrite the headline to lead with outcomes.</strong> The current title reads like a search string. Buyers need to immediately understand what the product does for them.</div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">2</div>
+          <div class="rec-text"><strong>Surface the results timeline above the fold.</strong> "When will I see results?" is the top buyer question, but the answer is buried in the FAQ section.</div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">3</div>
+          <div class="rec-text"><strong>Add trust signals directly below the price.</strong> Trust badges at the purchase decision point reduce hesitation where it matters most.</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1: PROBLEM FRAMING & BUYER CONTEXT
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-teal" id="context">
+    <div class="section-num">Section 01</div>
+    <h2 class="sec-title"><span class="ic">🎯</span>Problem Framing &amp; Buyer Context</h2>
+
+    <p class="body-text">
+      A ₹1,529 wellness supplement is not an impulse buy. The potential customer has already done some research,
+      is aware of collagen as a category, and is evaluating Wellbeing Nutrition against alternatives
+      (OZiva, HK Vitals, Kapiva). The product page is likely the primary decision environment — and it
+      needs to do the job that a knowledgeable sales assistant would do in a store.
+    </p>
+
+    <h3 class="sub-title" style="margin-top:24px;">Likely Buyer Segments</h3>
+    <div class="segment-table-wrap">
+      <table class="seg-table">
+        <thead>
+          <tr>
+            <th>Segment</th>
+            <th>Primary Motivation</th>
+            <th>Key Purchase Question</th>
+            <th>Risk of Abandonment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Skin-focused buyer</strong><br>(25–40, urban)</td>
+            <td>Reduce fine lines, dullness, or uneven texture after seeing peer recommendations or social content</td>
+            <td>"Will this actually work for my skin type? When will I see a difference?"</td>
+            <td>High — outcome uncertainty drives tab-switching to reviews and alternatives</td>
+          </tr>
+          <tr>
+            <td><strong>Hair-fall researcher</strong><br>(28–45)</td>
+            <td>Supplement collagen for hair density after reading that it supports keratin production</td>
+            <td>"Is marine collagen better than biotin or plant-based options? Is the source clean?"</td>
+            <td>Medium — more ingredient-literate, wants sourcing specifics</td>
+          </tr>
+          <tr>
+            <td><strong>Wellness-stack buyer</strong><br>(30–45)</td>
+            <td>Filling a perceived nutritional gap; already takes other supplements</td>
+            <td>"Can this be mixed with other things? Does it actually absorb well?"</td>
+            <td>Lower — more likely to convert if formulation is credibly presented</td>
+          </tr>
+          <tr>
+            <td><strong>Gift buyer</strong><br>(any age)</td>
+            <td>Buying for a family member or friend; trusts the WBN brand</td>
+            <td>"Is this the right product for them? What are realistic expectations?"</td>
+            <td>Medium — less skeptical but needs clear communication of what the product is</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notice" style="margin-top: 20px;">
+      <span class="ni">📌</span>
+      <span>Segment definitions above are based on general D2C supplement buyer research patterns and the product's positioning. They are assumptions — persona validation through actual customer interviews or behavioral data would sharpen these considerably.</span>
+    </div>
+
+    <hr class="divider">
+
+    <h3 class="sub-title">Purchase Journey &amp; Decision Barriers</h3>
+    <div class="journey-wrap">
+      <!-- SVG Journey Diagram -->
+      <svg viewBox="0 0 860 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:580px;display:block;">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#334155"/>
+          </marker>
+        </defs>
+        <!-- Steps -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">
+          <!-- Step boxes -->
+          <rect x="10"  y="30" width="130" height="60" rx="8" fill="#1a2535" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="185" y="30" width="130" height="60" rx="8" fill="#1a2535" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="360" y="30" width="130" height="60" rx="8" fill="#1a2535" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="535" y="30" width="130" height="60" rx="8" fill="#1a2535" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="710" y="30" width="130" height="60" rx="8" fill="#10b981" fill-opacity="0.12" stroke="rgba(16,185,129,0.35)" stroke-width="1"/>
+
+          <!-- Arrows -->
+          <line x1="142" y1="60" x2="183" y2="60" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="317" y1="60" x2="358" y2="60" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="492" y1="60" x2="533" y2="60" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="667" y1="60" x2="708" y2="60" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <!-- Step labels -->
+          <text x="75"  y="54" text-anchor="middle" fill="#f1f5f9" font-weight="600" font-size="11.5">Awareness</text>
+          <text x="75"  y="72" text-anchor="middle" fill="#64748b" font-size="10">Social / Search / WOM</text>
+
+          <text x="250" y="54" text-anchor="middle" fill="#f1f5f9" font-weight="600" font-size="11.5">PDP Landing</text>
+          <text x="250" y="72" text-anchor="middle" fill="#64748b" font-size="10">First impression + scroll</text>
+
+          <text x="425" y="54" text-anchor="middle" fill="#f1f5f9" font-weight="600" font-size="11.5">Consideration</text>
+          <text x="425" y="72" text-anchor="middle" fill="#64748b" font-size="10">Reviews, ingredients, FAQs</text>
+
+          <text x="600" y="54" text-anchor="middle" fill="#f1f5f9" font-weight="600" font-size="11.5">Purchase Intent</text>
+          <text x="600" y="72" text-anchor="middle" fill="#64748b" font-size="10">Price, trust, CTA</text>
+
+          <text x="775" y="54" text-anchor="middle" fill="#10b981" font-weight="700" font-size="11.5">Conversion</text>
+          <text x="775" y="72" text-anchor="middle" fill="#64748b" font-size="10">Add to Cart → Checkout</text>
+        </g>
+
+        <!-- Friction labels below -->
+        <g font-family="Inter, sans-serif" font-size="10" fill="#f43f5e">
+          <text x="250" y="115" text-anchor="middle">⚠ Vague headline</text>
+          <text x="250" y="127" text-anchor="middle">loses attention fast</text>
+          <text x="425" y="115" text-anchor="middle">⚠ Results timeline</text>
+          <text x="425" y="127" text-anchor="middle">buried in FAQ</text>
+          <text x="600" y="115" text-anchor="middle">⚠ No trust signals</text>
+          <text x="600" y="127" text-anchor="middle">near price / CTA</text>
+        </g>
+      </svg>
+    </div>
+
+    <h3 class="sub-title" style="margin-top:24px;">Illustrative Category Drop-Off Funnel</h3>
+    <div class="funnel-container">
+      <div class="funnel-disclaimer">
+        ⚠ Illustrative estimates only — based on typical D2C supplement category benchmarks, not verified WBN analytics.
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Lands on PDP</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:100%">100%</div></div>
+        <div class="funnel-pct">100%</div>
+      </div>
+      <div class="funnel-dropoff">↓ ~50% exit without scrolling past hero</div>
+      <div class="funnel-row">
+        <div class="funnel-label">Scrolls past hero</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:50%">50%</div></div>
+        <div class="funnel-pct">~50%</div>
+      </div>
+      <div class="funnel-dropoff">↓ ~22% exit without engaging with product details</div>
+      <div class="funnel-row">
+        <div class="funnel-label">Reads product info</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:28%">28%</div></div>
+        <div class="funnel-pct">~28%</div>
+      </div>
+      <div class="funnel-dropoff">↓ ~19% exit without adding to cart</div>
+      <div class="funnel-row">
+        <div class="funnel-label">Clicks Add to Cart</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:9%">9%</div></div>
+        <div class="funnel-pct">~9%</div>
+      </div>
+      <div class="funnel-dropoff">↓ ~5.5% abandon at checkout</div>
+      <div class="funnel-row">
+        <div class="funnel-label">Completes purchase</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:3.5%">3.5%</div></div>
+        <div class="funnel-pct">~3.5%</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2: PDP AUDIT
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-cyan" id="audit">
+    <div class="section-num">Section 02</div>
+    <h2 class="sec-title"><span class="ic" style="background:var(--cyan-dim);color:var(--cyan);">🔍</span>Existing PDP Audit</h2>
+
+    <p class="body-text">
+      I reviewed the live product page at
+      <a href="https://wellbeingnutrition.com/products/korean-marine-collagen-peptides?variant=40790" style="color:var(--teal);" target="_blank">wellbeingnutrition.com</a>
+      like a potential buyer would — reading copy, checking information hierarchy, and noting what required additional effort to find. The audit below covers what is working, what is creating friction, and why each item matters for conversion.
+    </p>
+
+    <h3 class="sub-title">What the Page Already Does Well</h3>
+    <div class="grid-2">
+      <div class="card card-good">
+        <div class="card-header"><div class="card-title">Strong Ingredient Story</div><span class="badge badge-teal">Working</span></div>
+        <p class="card-body">Deep-sea Korean fish sourcing, nano-hydrolyzed peptides (&lt;1000 Daltons), and lab-testing claims are genuine differentiators. The information exists — it just needs earlier and more prominent placement in the page hierarchy.</p>
+      </div>
+      <div class="card card-good">
+        <div class="card-header"><div class="card-title">Product Photography</div><span class="badge badge-teal">Working</span></div>
+        <p class="card-body">The product images on the live page are clean and well-lit. Multiple images show the packaging from different angles, which gives buyers sufficient visual confidence about what they are purchasing.</p>
+      </div>
+      <div class="card card-good">
+        <div class="card-header"><div class="card-title">Clear Dosage Instructions</div><span class="badge badge-teal">Working</span></div>
+        <p class="card-body">How-to-use information is present. Daily dosage (5–10g), mixing instructions, and timing guidance are included — reducing post-purchase uncertainty for buyers who make it that far.</p>
+      </div>
+      <div class="card card-good">
+        <div class="card-header"><div class="card-title">Comprehensive FAQ</div><span class="badge badge-teal">Working</span></div>
+        <p class="card-body">The FAQ section is detailed and covers the most common buyer objections — vegetarian status, weight gain, mixing with hot drinks, comparison with bovine collagen, and results timeline. The content is good; placement is the issue.</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title" style="margin-top:28px;">Friction Points and Information Hierarchy Issues</h3>
+    <div class="grid-2">
+      <div class="card card-bad">
+        <div class="card-header"><div class="card-title">Keyword-Dump Headline</div><span class="badge badge-red">High Impact</span></div>
+        <p class="card-body">The current title — "Pure Korean Marine Collagen Peptides | Unflavored | Combat Signs of Ageing" — reads like an SEO string, not a product benefit statement. It names chemical specs and format rather than communicating what changes for the buyer. Buyers are scanning for relevance in under 3 seconds.</p>
+      </div>
+      <div class="card card-bad">
+        <div class="card-header"><div class="card-title">Results Timeline Buried in FAQ</div><span class="badge badge-red">High Impact</span></div>
+        <p class="card-body">"When will I see results?" is almost certainly the #1 buyer question in this category. The answer ("4–8 weeks") is accurate and stated in the FAQ — but requiring a buyer to scroll to the bottom and open an accordion to find it creates unnecessary uncertainty during the consideration phase.</p>
+      </div>
+      <div class="card card-bad">
+        <div class="card-header"><div class="card-title">No Trust Signals at Decision Point</div><span class="badge badge-red">High Impact</span></div>
+        <p class="card-body">The price and Add-to-Cart button area has no surrounding reassurance messaging. Key information — lab tested, deep-sea sourced, money-back policy — appears either much higher on the page or not at all near the primary CTA. Conversion decisions are made at the point of maximum risk perception.</p>
+      </div>
+      <div class="card card-warn">
+        <div class="card-header"><div class="card-title">No Subscription or Repeat-Order Option</div><span class="badge badge-amber">Revenue Leak</span></div>
+        <p class="card-body">Collagen is a daily-use supplement with a 4–12 week efficacy window, meaning repeat purchases are the natural product behavior. The absence of a subscribe-and-save or bundle option near the purchase controls leaves potential LTV gains unaddressed.</p>
+      </div>
+      <div class="card card-warn">
+        <div class="card-header"><div class="card-title">Mobile CTA Scroll Distance</div><span class="badge badge-amber">Mobile Issue</span></div>
+        <p class="card-body">On mobile, reaching the Add-to-Cart button after reading even two sections of content requires significant scroll. A sticky or floating CTA bar on mobile would reduce friction for buyers who are ready to purchase mid-scroll.</p>
+      </div>
+      <div class="card card-warn">
+        <div class="card-header"><div class="card-title">Unanchored Social Proof</div><span class="badge badge-amber">Trust Gap</span></div>
+        <p class="card-body">Reviews appear to exist, but the review system (Judge.me) loads asynchronously. During the critical first few seconds, there is no visible star rating or review summary in the hero section — the part of the page that buyers see first.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 3: PRIORITIZED CRO OPPORTUNITIES
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-teal" id="opportunities">
+    <div class="section-num">Section 03</div>
+    <h2 class="sec-title"><span class="ic">📌</span>Prioritized CRO Opportunities</h2>
+
+    <p class="body-text">
+      Each opportunity below maps a specific user problem to a proposed intervention, with an assessment of effort and expected direction of impact. Specific percentage lift predictions are excluded — without baseline data, any numbers would be fabricated.
+    </p>
+
+    <!-- Effort/Impact Matrix -->
+    <h3 class="sub-title">Effort vs. Impact Overview</h3>
+    <div class="matrix-wrap">
+      <svg class="matrix-svg" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="xarr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#475569"/>
+          </marker>
+        </defs>
+        <!-- Axes -->
+        <line x1="60" y1="310" x2="500" y2="310" stroke="#475569" stroke-width="1.5" marker-end="url(#xarr)"/>
+        <line x1="60" y1="310" x2="60"  y2="20"  stroke="#475569" stroke-width="1.5" marker-end="url(#xarr)"/>
+        <text x="280" y="348" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="#64748b">Implementation Effort →</text>
+        <text x="22"  y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="#64748b" transform="rotate(-90,22,170)">Business Impact →</text>
+
+        <!-- Quadrant backgrounds -->
+        <rect x="61" y="21" width="219" height="289" fill="rgba(16,185,129,0.04)" rx="0"/>
+        <rect x="280" y="21" width="219" height="289" fill="rgba(245,158,11,0.03)" rx="0"/>
+        <line x1="280" y1="21" x2="280" y2="310" stroke="#1e293b" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="61"  y1="165" x2="500" y2="165" stroke="#1e293b" stroke-width="1" stroke-dasharray="4,4"/>
+
+        <!-- Quadrant labels -->
+        <text x="170" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="rgba(16,185,129,0.6)" font-weight="700">QUICK WINS</text>
+        <text x="390" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="rgba(245,158,11,0.6)" font-weight="700">STRATEGIC BETS</text>
+        <text x="170" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="rgba(255,255,255,0.2)" font-weight="700">LOW PRIORITY</text>
+        <text x="390" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="rgba(255,255,255,0.2)" font-weight="700">RECONSIDER</text>
+
+        <!-- Opportunity dots -->
+        <!-- H1: Headline rewrite — low effort, high impact -->
+        <circle cx="130" cy="80" r="22" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="130" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#10b981" font-weight="700">H1</text>
+
+        <!-- H2: Trust badges near price — low effort, high impact -->
+        <circle cx="175" cy="110" r="22" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="175" y="114" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#10b981" font-weight="700">H2</text>
+
+        <!-- H3: Results timeline — medium effort, high impact -->
+        <circle cx="310" cy="95" r="22" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="310" y="99" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#22d3ee" font-weight="700">H3</text>
+
+        <!-- H4: Sticky mobile CTA — low effort, medium impact -->
+        <circle cx="145" cy="195" r="22" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="145" y="199" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#f59e0b" font-weight="700">H4</text>
+
+        <!-- H5: Subscribe & Save — high effort, high impact -->
+        <circle cx="400" cy="115" r="22" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="400" y="119" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#a78bfa" font-weight="700">H5</text>
+
+        <!-- Legend -->
+        <circle cx="80"  cy="335" r="8" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="95" y="339" font-family="Inter,sans-serif" font-size="10.5" fill="#94a3b8">Quick Win</text>
+        <circle cx="165" cy="335" r="8" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="180" y="339" font-family="Inter,sans-serif" font-size="10.5" fill="#94a3b8">Medium Effort</text>
+        <circle cx="275" cy="335" r="8" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+        <text x="290" y="339" font-family="Inter,sans-serif" font-size="10.5" fill="#94a3b8">Strategic</text>
+      </svg>
+    </div>
+
+    <!-- Opportunity detail cards -->
+    <div class="exp-box" id="h1">
+      <div class="exp-header">
+        <span class="exp-id">Opportunity H1</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-teal">Quick Win</span>
+          <span class="badge badge-teal">Priority: High</span>
+        </div>
+      </div>
+      <div class="exp-title">Rewrite the product headline to lead with buyer outcome</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>User Problem</label><p>Buyers scanning the page don't see an immediate answer to "what does this do for me?" The current title names the product format, not the benefit.</p></div>
+        <div class="exp-field"><label>Proposed Change</label><p>Replace title with an outcome-first headline (e.g., <em>"Firmer Skin &amp; Stronger Hair. In 8 Weeks."</em>), with the technical product name as a sub-label.</p></div>
+        <div class="exp-field"><label>Behavioral Rationale</label><p>Processing fluency principle: buyers make faster, more confident decisions when they can immediately map a product to a desired outcome.</p></div>
+        <div class="exp-field"><label>Primary Success Metric</label><p>Add-to-Cart rate (ATC%) — secondary: scroll depth past hero section.</p></div>
+      </div>
+    </div>
+
+    <div class="exp-box" id="h2">
+      <div class="exp-header">
+        <span class="exp-id">Opportunity H2</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-teal">Quick Win</span>
+          <span class="badge badge-teal">Priority: High</span>
+        </div>
+      </div>
+      <div class="exp-title">Place trust signals directly below the price and CTA</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>User Problem</label><p>At the moment of maximum decision anxiety (price + buy button), there is no reassurance. Key differentiators are scattered elsewhere.</p></div>
+        <div class="exp-field"><label>Proposed Change</label><p>Add 4–5 compact trust indicators directly below the ATC button: lab-tested, deep-sea sourced, Dalton size, money-back policy, return terms.</p></div>
+        <div class="exp-field"><label>Behavioral Rationale</label><p>Risk-reduction at the point of decision. The closer reassurance messaging is to the buy action, the more effective it is at reducing abandonment.</p></div>
+        <div class="exp-field"><label>Primary Success Metric</label><p>ATC-to-checkout rate (measures drop-off between cart addition and checkout initiation).</p></div>
+      </div>
+    </div>
+
+    <div class="exp-box" id="h3">
+      <div class="exp-header">
+        <span class="exp-id">Opportunity H3</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-cyan">Medium Effort</span>
+          <span class="badge badge-teal">Priority: High</span>
+        </div>
+      </div>
+      <div class="exp-title">Add a visual "What to Expect" results timeline above the fold</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>User Problem</label><p>The #1 anxiety with collagen is uncertainty about when it works. This information is buried in FAQ and requires scrolling and clicking to access.</p></div>
+        <div class="exp-field"><label>Proposed Change</label><p>A 4-step visual progression (Week 2 → Week 4 → Week 8 → Week 12) showing expected changes at each stage, placed in the hero or just below it.</p></div>
+        <div class="exp-field"><label>Behavioral Rationale</label><p>Reduces ambiguity and sets honest expectations — both of which increase purchase commitment and reduce return rates. Anchors the buyer's mental model before they open competing tabs.</p></div>
+        <div class="exp-field"><label>Primary Success Metric</label><p>Time-on-page, CTA engagement rate, and return rate as a guardrail.</p></div>
+      </div>
+    </div>
+
+    <div class="exp-box" id="h4">
+      <div class="exp-header">
+        <span class="exp-id">Opportunity H4</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-teal">Quick Win</span>
+          <span class="badge badge-amber">Priority: Medium</span>
+        </div>
+      </div>
+      <div class="exp-title">Implement a sticky purchase bar on mobile</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>User Problem</label><p>On mobile, buyers who are ready to purchase mid-scroll have to scroll back up or all the way down to find the Add-to-Cart button.</p></div>
+        <div class="exp-field"><label>Proposed Change</label><p>A compact bottom bar on mobile (visible after user scrolls past the hero) showing product name, price, and an ATC button.</p></div>
+        <div class="exp-field"><label>Behavioral Rationale</label><p>Reduces conversion friction at peak intent moments — buyer doesn't need to navigate to act on their decision.</p></div>
+        <div class="exp-field"><label>Primary Success Metric</label><p>Mobile ATC rate specifically. Guardrail: layout shift / usability feedback.</p></div>
+      </div>
+    </div>
+
+    <div class="exp-box" id="h5">
+      <div class="exp-header">
+        <span class="exp-id">Opportunity H5</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-violet">Structural</span>
+          <span class="badge badge-cyan">Priority: Medium (Long-term)</span>
+        </div>
+      </div>
+      <div class="exp-title">Introduce a Subscribe &amp; Save purchase option</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>User Problem</label><p>The product is a daily-use supplement with a minimum 8-week commitment for visible results. No repeat-purchase option is offered, which misses LTV potential and makes a two-bottle purchase feel like a large upfront commitment.</p></div>
+        <div class="exp-field"><label>Proposed Change</label><p>Add a two-option radio selector above ATC: "One-time purchase (₹1,529)" and "Subscribe monthly + save" — pending product team validation of feasibility and discount structure.</p></div>
+        <div class="exp-field"><label>Behavioral Rationale</label><p>Subscription anchoring reduces perceived per-unit cost, aligns with natural product usage cycle, and improves LTV without needing to acquire new customers.</p></div>
+        <div class="exp-field"><label>Primary Success Metric</label><p>Subscription adoption rate, 90-day revenue per customer. Requires backend integration and product team input before testing.</p></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4: REDESIGNED PDP STRATEGY
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-amber" id="redesign">
+    <div class="section-num">Section 04</div>
+    <h2 class="sec-title"><span class="ic" style="background:var(--amber-dim);color:var(--amber);">🎨</span>Redesigned PDP — Strategy &amp; Rationale</h2>
+
+    <p class="body-text">
+      The redesigned product page (see <code style="background:rgba(255,255,255,0.06);padding:2px 7px;border-radius:4px;font-size:13px;">enhanced-pdp.html</code>) preserves the core content and brand identity while restructuring the information hierarchy to address the friction points identified above. Each major design decision is mapped to a specific user problem.
+    </p>
+
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">1. Outcome-first headline</div>
+        <p class="card-body">The redesigned page opens with <em>"Firmer Skin &amp; Stronger Hair. In 8 Weeks."</em> as the primary heading. Technical specs (Type I &amp; III collagen, nano-hydrolyzed) appear in the first line below. This addresses H1 directly.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">2. Trust pills in the hero</div>
+        <p class="card-body">Compact trust indicators (deep-sea sourced, lab-tested, unflavored, keto-friendly) are placed directly below the product name in a pill-row format. They are visible before the buyer scrolls, answering basic source and safety questions upfront.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">3. Results timeline as a dedicated section</div>
+        <p class="card-body">A 4-step visual timeline (Weeks 2 → 4 → 8 → 12) surfaces the expected progression clearly and early in the page. This answers the #1 buyer question before they bounce to research elsewhere. Language is careful: "many users notice" rather than guaranteed outcomes.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">4. Purchase-option selector</div>
+        <p class="card-body">A two-option radio UI presents one-time purchase vs. a suggested subscription option. This is labeled as a design proposal, with prices marked as illustrative pending business model validation.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">5. Sticky mobile ATC bar</div>
+        <p class="card-body">A fixed bottom bar appears on mobile once the user scrolls past the product hero. It shows the product name, price, and an Add-to-Cart button — keeping the purchase action accessible regardless of scroll position.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px;">6. Science section with qualified claims</div>
+        <p class="card-body">The bioavailability claim is framed as "higher bioavailability versus standard collagen" rather than asserting a specific multiplier. The science section focuses on the mechanism (smaller peptide size, better gut absorption) rather than unverified clinical outcomes.</p>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:24px;">
+      <span class="ni">⚠️</span>
+      <span>The redesigned page uses <strong>actual product images from the Wellbeing Nutrition CDN</strong> for the gallery. Review content and rating data in the redesigned page are explicitly labeled as illustrative. Prices and subscription details are design proposals, not confirmed business decisions.</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 5: EXPERIMENT PLAN
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-cyan" id="experiments">
+    <div class="section-num">Section 05</div>
+    <h2 class="sec-title"><span class="ic" style="background:var(--cyan-dim);color:var(--cyan);">🧪</span>Experiment Plan</h2>
+
+    <p class="body-text">
+      Prioritized experiments for the first two testing cycles. Each is framed as a testable hypothesis with explicit control vs. treatment, primary metric, and guardrails. All experiments require baseline data to run properly and should only be run once adequate tracking is confirmed.
+    </p>
+
+    <!-- Experiment 1 -->
+    <div class="exp-box">
+      <div class="exp-header">
+        <span class="exp-id">Experiment 01 — H1</span>
+        <div style="display:flex;gap:8px;"><span class="badge badge-teal">A/B Test</span><span class="badge badge-teal">Start Here</span></div>
+      </div>
+      <div class="exp-title">Headline Rewrite: Outcome-First vs. Current</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>Hypothesis</label><p>If we change the product headline to lead with a customer outcome, buyers will more quickly understand the product's relevance to their needs, leading to higher engagement and ATC rate.</p></div>
+        <div class="exp-field"><label>Control</label><p>"Pure Korean Marine Collagen Peptides | Unflavored | Combat Signs of Ageing" (current title)</p></div>
+        <div class="exp-field"><label>Treatment</label><p>"Firmer Skin &amp; Stronger Hair. In 8 Weeks." with product spec as a subtitle line.</p></div>
+        <div class="exp-field"><label>Primary Metric</label><p>Add-to-Cart click rate (measured at session level)</p></div>
+        <div class="exp-field"><label>Guardrail Metrics</label><p>Time on page (should not decrease significantly); bounce rate; return rate (ensure copy sets honest expectations)</p></div>
+        <div class="exp-field"><label>Required Tracking</label><p>GA4 with ATC event, scroll depth events (25%, 50%, 75%), and session recording tool (Clarity or Hotjar)</p></div>
+      </div>
+      <div class="exp-field"><label>Decision Criteria</label><p style="font-size:13px;color:var(--txt-2);">Run until statistical significance at 95% confidence or minimum 2 weeks (whichever is later). Declare winner if treatment shows a directional lift in ATC rate without meaningful deterioration in guardrails.</p></div>
+    </div>
+
+    <!-- Experiment 2 -->
+    <div class="exp-box">
+      <div class="exp-header">
+        <span class="exp-id">Experiment 02 — H2</span>
+        <div style="display:flex;gap:8px;"><span class="badge badge-teal">A/B Test</span><span class="badge badge-teal">Fast Cycle</span></div>
+      </div>
+      <div class="exp-title">Trust Badges Below Price: Present vs. Absent</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>Hypothesis</label><p>Adding visual trust signals (lab-tested, deep-sea sourced, return policy) immediately below the price will reduce purchase anxiety and increase ATC-to-checkout conversion.</p></div>
+        <div class="exp-field"><label>Control</label><p>Current layout: price block followed immediately by quantity selector and ATC button with no surrounding reassurance.</p></div>
+        <div class="exp-field"><label>Treatment</label><p>Same layout with a compact row of 4 trust icons (with short labels) placed between the price and the ATC button.</p></div>
+        <div class="exp-field"><label>Primary Metric</label><p>ATC-to-checkout initiation rate</p></div>
+        <div class="exp-field"><label>Guardrail Metrics</label><p>Overall session duration; ATC rate (should not be harmed by added content in the area)</p></div>
+        <div class="exp-field"><label>Required Tracking</label><p>Checkout funnel events, cart abandonment events</p></div>
+      </div>
+      <div class="exp-field"><label>Decision Criteria</label><p style="font-size:13px;color:var(--txt-2);">Minimum 2 weeks of data, 95% confidence. This test should run after Experiment 01 or in parallel on different page variants to avoid confounds.</p></div>
+    </div>
+
+    <!-- Experiment 3 -->
+    <div class="exp-box">
+      <div class="exp-header">
+        <span class="exp-id">Experiment 03 — H3</span>
+        <div style="display:flex;gap:8px;"><span class="badge badge-cyan">A/B Test</span><span class="badge badge-cyan">Second Cycle</span></div>
+      </div>
+      <div class="exp-title">Results Timeline Placement: In-Page Section vs. FAQ Only</div>
+      <div class="exp-grid">
+        <div class="exp-field"><label>Hypothesis</label><p>Surfacing a visual "what to expect" timeline as a dedicated section above the FAQ — rather than only inside an FAQ accordion — will reduce buyer uncertainty and increase conversion rate.</p></div>
+        <div class="exp-field"><label>Control</label><p>Results information accessible only via FAQ accordion at the bottom of the page.</p></div>
+        <div class="exp-field"><label>Treatment</label><p>A new visual timeline section (Weeks 2/4/8/12) added between the product hero and the benefits section.</p></div>
+        <div class="exp-field"><label>Primary Metric</label><p>PDP overall conversion rate (sessions → purchase)</p></div>
+        <div class="exp-field"><label>Guardrail Metrics</label><p>Return and refund rate (ensure expectations set by timeline are accurate); FAQ section engagement rate</p></div>
+        <div class="exp-field"><label>Required Tracking</label><p>Purchase events, refund rate from operations data, section scroll engagement</p></div>
+      </div>
+      <div class="exp-field"><label>Testing Consideration</label><p style="font-size:13px;color:var(--txt-2);">This requires modifying page structure. Run after quick-win experiments are confirmed to isolate the effect of the timeline specifically.</p></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 6: IMPLEMENTATION ROADMAP
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-teal" id="roadmap">
+    <div class="section-num">Section 06</div>
+    <h2 class="sec-title"><span class="ic">🗓</span>Implementation Roadmap</h2>
+
+    <p class="body-text">
+      Sequenced as three phases: instrumentation first (no testing without baseline data), then quick wins that require minimal development, then structural changes that need more coordination.
+    </p>
+
+    <table class="roadmap-table">
+      <thead>
+        <tr>
+          <th style="width:130px;">Timeline</th>
+          <th>Actions</th>
+          <th style="width:160px;">Owner / Note</th>
+          <th style="width:130px;">Success Indicator</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="phase-label ph-1">Phase 1</div><br>
+            <strong>Weeks 1–2</strong>
+          </td>
+          <td>
+            Verify GA4 is recording ATC events, scroll depth (25/50/75%), FAQ accordion opens, and checkout steps correctly. Implement Clarity or Hotjar session recording on PDP. Establish 2-week baseline for ATC rate and conversion rate before launching any tests.
+          </td>
+          <td>Analytics / Dev</td>
+          <td>Clean, confirmed baseline data visible in dashboard</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="phase-label ph-1">Phase 1</div><br>
+            <strong>Weeks 3–4</strong>
+          </td>
+          <td>
+            Launch Experiment 01 (headline rewrite). Simultaneously: implement sticky mobile ATC bar as a standalone non-tested improvement (low code risk, high mobile UX benefit regardless of headline test outcome).
+          </td>
+          <td>Dev (front-end) + CRO</td>
+          <td>Experiment 01 live with clean variant split; mobile sticky bar functional</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="phase-label ph-2">Phase 2</div><br>
+            <strong>Weeks 5–6</strong>
+          </td>
+          <td>
+            Evaluate Experiment 01. If directional, proceed to implement winner. Launch Experiment 02 (trust badges below price). Begin design &amp; copy work for results timeline section in parallel.
+          </td>
+          <td>CRO + Design</td>
+          <td>Experiment 02 live; timeline section design approved</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="phase-label ph-2">Phase 2</div><br>
+            <strong>Weeks 7–8</strong>
+          </td>
+          <td>
+            Evaluate Experiment 02. Implement winner. Launch Experiment 03 (results timeline placement). Initiate internal discussion on subscription model feasibility (H5) with product &amp; operations teams.
+          </td>
+          <td>Dev + Product</td>
+          <td>Experiment 03 live; subscription feasibility assessment complete</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="phase-label ph-3">Phase 3</div><br>
+            <strong>Weeks 9–12</strong>
+          </td>
+          <td>
+            Evaluate Experiment 03. If subscription model approved, design and implement subscribe-and-save toggle (H5). Run iterative tests on secondary elements (review placement, image order, gallery format). Review overall conversion trend against baseline.
+          </td>
+          <td>Cross-functional</td>
+          <td>Full experiment cycle complete; overall CVR trend measured against baseline</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 7: MEASUREMENT FRAMEWORK
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-violet" id="metrics">
+    <div class="section-num">Section 07</div>
+    <h2 class="sec-title"><span class="ic" style="background:var(--violet-dim);color:var(--violet);">📊</span>Measurement Framework</h2>
+
+    <p class="body-text">
+      All targets below are directional goals, not guaranteed outcomes. Specific numbers should be set after reviewing 2-week baseline data, since the right target depends on current performance.
+    </p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-num">ATC Rate</div>
+        <div class="kpi-label">Primary metric — goal: directional improvement from baseline</div>
+        <div class="kpi-note">Measure at session level, segment by device</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">CVR</div>
+        <div class="kpi-label">PDP session to purchase conversion rate</div>
+        <div class="kpi-note">Requires purchase event + session attribution in GA4</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">ATC→Checkout</div>
+        <div class="kpi-label">What % of ATC clicks reach checkout initiation</div>
+        <div class="kpi-note">Identifies drop-off between cart and payment</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">RPV</div>
+        <div class="kpi-label">Revenue per visitor — captures AOV &amp; CVR together</div>
+        <div class="kpi-note">Best single-number view of PDP commercial performance</div>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Guardrail Metrics</h3>
+    <table class="roadmap-table" style="margin-top:14px;">
+      <thead>
+        <tr>
+          <th>Guardrail</th>
+          <th>Why It Matters</th>
+          <th>Action If Violated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Return &amp; Refund Rate</strong></td>
+          <td>Copy changes that set unrealistic expectations would drive returns even if they improve initial conversion</td>
+          <td>Pause test; review copy for overclaiming</td>
+        </tr>
+        <tr>
+          <td><strong>Review Rating (if public)</strong></td>
+          <td>Declining satisfaction signals would undermine the long-term impact of any conversion lift</td>
+          <td>Investigate source of dissatisfaction before continuing tests</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile Usability Score</strong></td>
+          <td>Sticky ATC bars or layout changes could create layout shift or obscure content on small screens</td>
+          <td>QA on multiple device types before launch; collect user feedback</td>
+        </tr>
+        <tr>
+          <td><strong>Page Load Time</strong></td>
+          <td>Adding new sections, images, or scripts can degrade Core Web Vitals and hurt both UX and SEO</td>
+          <td>Monitor LCP &amp; CLS; optimize assets before shipping new sections</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 8: LIMITATIONS & NEXT STEPS
+       ══════════════════════════════════════════════════════════ -->
+  <section class="section accent-amber" id="limitations">
+    <div class="section-num">Section 08</div>
+    <h2 class="sec-title"><span class="ic" style="background:var(--amber-dim);color:var(--amber);">⚠️</span>Limitations &amp; Next Steps</h2>
+
+    <p class="body-text">
+      This analysis is based on a qualitative review of the product page and general D2C supplement category knowledge. A number of things would materially improve the quality and confidence of these recommendations.
+    </p>
+
+    <div class="limit-grid">
+      <div class="limit-card">
+        <div class="limit-card-icon">📈</div>
+        <div class="limit-card-title">No Access to Real Analytics</div>
+        <div class="limit-card-body">All funnel estimates are illustrative benchmarks. The actual ATC rate, scroll depth, device split, and conversion rate for this specific PDP are unknown. Reviewing real GA4 data would immediately surface the biggest drop-off points.</div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-card-icon">🗺️</div>
+        <div class="limit-card-title">No Heatmap or Session Data</div>
+        <div class="limit-card-body">Without Clarity or Hotjar recordings, it's impossible to know precisely where buyers scroll, click, or stop. This would either validate or significantly revise the audit findings above.</div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-card-icon">🗣️</div>
+        <div class="limit-card-title">No Customer Research</div>
+        <div class="limit-card-body">The buyer segments and purchase objections above are assumptions. Even 5 user interviews (or a survey sent to past buyers) would reveal actual objections and make hypothesis prioritization much sharper.</div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-card-icon">🔗</div>
+        <div class="limit-card-title">Subscription Model Unverified</div>
+        <div class="limit-card-body">H5 (subscribe &amp; save) assumes the business model and operations can support it. This would need product team, finance, and ops input before it can be designed or tested properly.</div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-card-icon">📱</div>
+        <div class="limit-card-title">Mobile Traffic Share Unknown</div>
+        <div class="limit-card-body">If the majority of traffic is mobile (common for D2C wellness brands in India), mobile-specific improvements (sticky CTA, image sizing, font scaling) would warrant higher priority than they currently have.</div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-card-icon">🧪</div>
+        <div class="limit-card-title">Traffic Volume Constrains Testing</div>
+        <div class="limit-card-body">Statistical significance requires sufficient traffic. If the PDP receives fewer than ~10,000 sessions per month, some experiments will take months to reach confidence. Sample size should be estimated before designing tests.</div>
+      </div>
+    </div>
+
+    <h3 class="sub-title" style="margin-top:28px;">Recommended Immediate Next Steps</h3>
+    <ul class="bullet-list">
+      <li><strong>Confirm tracking setup:</strong> Verify GA4 is capturing ATC, scroll depth, FAQ opens, and checkout steps correctly. This is prerequisite for everything else.</li>
+      <li><strong>Establish a 2-week baseline:</strong> Run no experiments until you have clean baseline data to compare against.</li>
+      <li><strong>Run 3–5 buyer interviews:</strong> Even short calls with recent customers (or survey responses) would validate whether the identified friction points are real.</li>
+      <li><strong>Prioritize mobile audit:</strong> Check the current PDP on Android and iOS at actual device dimensions. Identify any layout or usability issues that don't appear on desktop.</li>
+      <li><strong>Start with headline test:</strong> Experiment 01 requires no backend work, can be run via a testing tool, and directly tests the highest-confidence hypothesis.</li>
+    </ul>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Wellbeing Nutrition — CRO Assignment &nbsp;·&nbsp; Candidate Submission &nbsp;·&nbsp;
+    <a href="enhanced-pdp.html">View Redesigned PDP →</a>
+  </footer>
+
+</div>
+
+<script>
+// Animate funnel bars on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const fills = document.querySelectorAll('.funnel-fill');
+  fills.forEach(el => {
+    const target = el.style.width;
+    el.style.width = '0%';
+    setTimeout(() => { el.style.width = target; }, 300);
+  });
+});
+</script>
+
+</body>
+</html>
